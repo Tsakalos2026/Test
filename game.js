@@ -12,9 +12,11 @@ function updateUI() {
   const cost = 10 * Math.pow(2, state.upgradeLevel);
   document.getElementById("upgradeInfo").textContent =
     `Upgrade level: ${state.upgradeLevel} | Next cost: ${cost}`;
+
   document.getElementById("buyUpgrade").textContent =
     `Buy upgrade (cost ${cost})`;
 
+  // feed state to the canvas renderer
   window.renderUniverse?.(state);
 }
 
@@ -25,14 +27,16 @@ document.getElementById("gain").onclick = () => {
 
 document.getElementById("buyUpgrade").onclick = () => {
   const cost = 10 * Math.pow(2, state.upgradeLevel);
-  if (state.points >= cost) {
-    state.points -= cost;
-    state.upgradeLevel += 1;
-    state.perClick += 1;
-    updateUI();
-  }
-};
+  if (state.points < cost) return;
 
-if (state.upgradeLevel === 3) state.electrons = 2;
+  state.points -= cost;
+  state.upgradeLevel += 1;
+  state.perClick += 1;
+
+  // simple “unlock”: start showing electrons after level 3
+  if (state.upgradeLevel >= 3) state.electrons = 2;
+
+  updateUI();
+};
 
 updateUI();
