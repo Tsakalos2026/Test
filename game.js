@@ -1,7 +1,8 @@
 let state = {
   points: 0,
   perClick: 1,
-  upgradeLevel: 0
+  upgradeLevel: 0,
+  electrons: 0
 };
 
 function updateUI() {
@@ -13,6 +14,8 @@ function updateUI() {
     `Upgrade level: ${state.upgradeLevel} | Next cost: ${cost}`;
   document.getElementById("buyUpgrade").textContent =
     `Buy upgrade (cost ${cost})`;
+
+  window.renderUniverse?.(state);
 }
 
 document.getElementById("gain").onclick = () => {
@@ -29,5 +32,7 @@ document.getElementById("buyUpgrade").onclick = () => {
     updateUI();
   }
 };
+
+if (state.upgradeLevel === 3) state.electrons = 2;
 
 updateUI();
